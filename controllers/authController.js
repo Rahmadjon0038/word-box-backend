@@ -16,7 +16,7 @@ exports.register = (req, res) => {
   const { name, email, password, role } = req.body;
 
   if (!name || !email || !password) {
-    return res.status(400).json({ error: "Name, email va password majburiy ❌" });
+    return res.status(400).json({ error: "Name, email va password majburiy " });
   }
 
   const userRole = role || "user";
@@ -25,13 +25,13 @@ exports.register = (req, res) => {
     if (err) {
       // SQLITE constraint errorini tekshirish
       if (err.code === "SQLITE_CONSTRAINT") {
-        return res.status(400).json({ error: "Bu email avvaldan mavjud ❌" });
+        return res.status(400).json({ error: "Bu email avvaldan mavjud " });
       }
       return res.status(500).json({ error: err.message });
     }
 
     res.status(201).json({
-      message: "User ro'yxatdan o'tdi ✅",
+      message: "User ro'yxatdan o'tdi ",
       user: {
         id: user.id,
         name: user.name,
@@ -47,36 +47,46 @@ exports.register = (req, res) => {
 exports.login = (req, res) => {
   const { email, password } = req.body;
 
-  // ✅ validation
+  //  validation
   if (!email || !password) {
-    return res.status(400).json({ error: "Email va password majburiy ❌" });
+    return res.status(400).json({ error: "Email va password majburiy " });
   }
 
   User.findByEmail(email, (err, user) => {
     if (err) return res.status(500).json({ error: err.message });
-    if (!user) return res.status(404).json({ error: "User topilmadi ❌" });
+    if (!user) return res.status(404).json({ error: "User topilmadi " });
 
     // parolni tekshirish
     if (user.password !== password) {
-      return res.status(401).json({ error: "Parol noto‘g‘ri ❌" });
+      return res.status(401).json({ error: "Parol noto‘g‘ri " });
     }
 
     // token yaratamiz
     const token = generateToken(user);
 
     res.json({
-      message: "Login muvaffaqiyatli ✅",
+      message: "Login muvaffaqiyatli ",
       token,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        avatar: user.avatar,
-        role: user.role
-      }
+      role: user.role
     });
   });
 };
+
+// 📌 User me (faqat token orqali)
+exports.getMe = (req, res) => {
+  const userId = req.user.id;
+
+  User.getById(userId, (err, user) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!user) return res.status(404).json({ error: "User topilmadi" });
+
+    res.json({
+      message: "User ma’lumotlari ",
+      user
+    });
+  });
+};
+
 
 // 📌 Profilga avatar yuklash
 exports.uploadAvatar = (req, res) => {
@@ -84,13 +94,13 @@ exports.uploadAvatar = (req, res) => {
   const avatarPath = req.file ? `/uploads/${req.file.filename}` : null;
 
   if (!avatarPath) {
-    return res.status(400).json({ error: "Rasm yuklanmadi ❌" });
+    return res.status(400).json({ error: "Rasm yuklanmadi " });
   }
 
   User.updateAvatar(id, avatarPath, (err, user) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({
-      message: "Avatar yangilandi ✅",
+      message: "Avatar yangilandi ",
       user: {
         id: user.id,
         name: user.name,

@@ -20,9 +20,7 @@ router.post('/login', userController.login);
 // Avatar yuklash (faqat login bo‘lgan user)
 router.post('/:id/avatar', authMiddleware, upload.single('avatar'), userController.uploadAvatar);
 
-// Faqat login bo‘lgan user o‘z profilini olish
-router.get('/me', authMiddleware, (req, res) => {
-  res.json({ message: "Profil ma’lumotlari ✅", user: req.user });
-});
+// Yangi user/me API
+router.get('/me', authMiddleware, userController.getMe);
 
 module.exports = router;

@@ -9,11 +9,19 @@ const db = require('./config/db')
 
 // ------------- Auth router -----------
 const authRouter = require('./router/authRouter');
-app.use('/auth', authRouter)
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/auth', authRouter)
+app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// -------------- Video lessons router-----------------
+const videoLessons = require('./router/videoLessonsRouter');
+app.use('/api/video',videoLessons)
+
+
+
 app.get('/', (req, res) => {
     res.status(200).json({ msg: 'Web monitoring platfomasiga hush kelinsiz' })
 })
+
 
 
 
