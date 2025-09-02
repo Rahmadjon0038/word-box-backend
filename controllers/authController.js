@@ -111,3 +111,20 @@ exports.uploadAvatar = (req, res) => {
     });
   });
 };
+
+
+// 📌 Barcha userlarni olish (faqat admin uchun)
+exports.getAllUsers = (req, res) => {
+  // faqat admin ruxsatini tekshiramiz
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ error: "Faqat admin kirishi mumkin ❌" });
+  }
+
+  User.getAll((err, users) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({
+      message: "Barcha foydalanuvchilar ✅",
+      users
+    });
+  });
+};

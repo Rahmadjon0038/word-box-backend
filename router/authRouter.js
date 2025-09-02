@@ -23,4 +23,7 @@ router.post('/:id/avatar', authMiddleware, upload.single('avatar'), userControll
 // Yangi user/me API
 router.get('/me', authMiddleware, userController.getMe);
 
+// Yangi barcha userlarni olish admin uchun
+router.get('/users', authMiddleware, userController.getAllUsers);
+
 module.exports = router;

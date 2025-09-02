@@ -14,7 +14,21 @@ app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // -------------- Video lessons router-----------------
 const videoLessons = require('./router/videoLessonsRouter');
-app.use('/api/video',videoLessons)
+app.use('/api/video', videoLessons)
+
+
+// -------------- Groups -----------------
+const grouprouter = require('./router/groupRoutes');
+app.use('/api/groups', grouprouter)
+
+
+// -------------- Month -----------------
+const monthRouter = require('./router/monthRoutes');
+app.use('/api/month', monthRouter)
+
+// -------------- Month Stydent -----------------
+const monthStudent = require('./router/monthStudentRoutes');
+app.use('/api/student', monthStudent)
 
 
 
