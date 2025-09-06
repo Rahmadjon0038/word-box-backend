@@ -73,6 +73,14 @@ const Lesson = {
       callback(null, { message: "Lesson o‘chirildi ✅", changes: this.changes });
     });
   },
+
+  // Darslar soni
+count: (callback) => {
+  db.get("SELECT COUNT(*) as total FROM lessons", [], (err, row) => {
+    callback(err, row?.total);
+  });
+},
+
 };
 
 

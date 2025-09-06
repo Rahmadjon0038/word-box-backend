@@ -57,3 +57,13 @@ exports.deleteLesson = (req, res) => {
     res.json(result);
   });
 };
+
+
+// GET /api/lessons/count
+exports.getLessonCount = (req, res) => {
+  Lesson.count((err, total) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ total });
+  });
+};
+

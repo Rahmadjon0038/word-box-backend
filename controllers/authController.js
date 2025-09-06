@@ -57,7 +57,7 @@ exports.login = (req, res) => {
     if (!user) return res.status(404).json({ error: "User topilmadi " });
 
     // parolni tekshirish
-    if (user.password !== password) {ya
+    if (user.password !== password) {
       return res.status(401).json({ error: "Parol noto‘g‘ri " });
     }
 
