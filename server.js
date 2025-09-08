@@ -21,7 +21,6 @@ app.use('/api/video', videoLessons)
 const grouprouter = require('./router/groupRoutes');
 app.use('/api/groups', grouprouter)
 
-
 // -------------- Month -----------------
 const monthRouter = require('./router/monthRoutes');
 app.use('/api/month', monthRouter)
