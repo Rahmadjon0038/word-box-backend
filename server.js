@@ -30,10 +30,12 @@ const monthStudent = require('./router/monthStudentRoutes');
 app.use('/api/student', monthStudent)
 
 // -------------- admin stats -----------------
-
 const statisticsRoutes = require("./router/statistics");
-
 app.use("/api/statistics", statisticsRoutes);
+
+
+const userChart = require("./router/profileRoutes");
+app.use("/api", userChart);
 
 
 app.get('/', (req, res) => {
