@@ -37,13 +37,7 @@ const User = {
     });
   },
 
-  // Barcha userlarni olish
-  getAll: (callback) => {
-    const sql = `SELECT id, name, email, avatar, role FROM users`;
-    db.all(sql, [], (err, rows) => {
-      callback(err, rows);
-    });
-  },
+
 
   // ID bo‘yicha user olish
   getById: (id, callback) => {
@@ -52,14 +46,6 @@ const User = {
       callback(err, row);
     });
   },
-
-  // Profilga rasm qo‘shish yoki yangilash
-  updateAvatar: (id, avatar, callback) => {
-    const sql = `UPDATE users SET avatar = ? WHERE id = ?`;
-    db.run(sql, [avatar, id], function (err) {
-      callback(err, { id, avatar });
-    });
-  }
 };
 
 usersTable(); // jadvalni yaratib qo‘yish

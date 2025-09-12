@@ -88,31 +88,6 @@ exports.getMe = (req, res) => {
 };
 
 
-// 📌 Profilga avatar yuklash
-exports.uploadAvatar = (req, res) => {
-  const id = req.params.id;
-  const avatarPath = req.file ? `/uploads/${req.file.filename}` : null;
-
-  if (!avatarPath) {
-    return res.status(400).json({ error: "Rasm yuklanmadi " });
-  }
-
-  User.updateAvatar(id, avatarPath, (err, user) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json({
-      message: "Avatar yangilandi ",
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        avatar: user.avatar,
-        role: user.role
-      }
-    });
-  });
-};
-
-
 // 📌 Barcha userlarni olish (faqat admin uchun)
 exports.getAllUsers = (req, res) => {
   // faqat admin ruxsatini tekshiramiz
