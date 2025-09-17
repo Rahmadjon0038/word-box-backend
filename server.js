@@ -13,7 +13,7 @@ app.use('/api/auth', authRouter)
 // ------------- Product router -----------
 
 const productrouter = require('./router/ProductRouter');
-app.use('/api/product', productrouter)
+app.use('/api', productrouter)
 
 
 app.get('/', (req, res) => {
