@@ -9,6 +9,13 @@ app.use(cors())
 const authRouter = require('./router/authRouter');
 app.use('/api/auth', authRouter)
 
+
+// ------------- Product router -----------
+
+const productrouter = require('./router/ProductRouter');
+app.use('/api/product', productrouter)
+
+
 app.get('/', (req, res) => {
     res.status(200).json({ msg: 'Backendga hush kelibsiz hush kelinsiz' })
 })
