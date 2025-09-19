@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
     return res.status(401).json({ error: "Token topilmadi ❌" });
   }
 
-  const token = authHeader.split(' ')[1]; // "Bearer token"
+  const token = authHeader.split(' ')[1]; // "Bearer token" dan faqat token qismi
   if (!token) {
     return res.status(401).json({ error: "Token noto‘g‘ri formatda ❌" });
   }
@@ -20,5 +20,6 @@ const authMiddleware = (req, res, next) => {
     return res.status(403).json({ error: "Token yaroqsiz ❌" });
   }
 };
+
 
 module.exports = authMiddleware;

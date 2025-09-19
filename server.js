@@ -10,14 +10,14 @@ const authRouter = require('./router/authRouter');
 app.use('/api/auth', authRouter)
 
 
-// ------------- Product router -----------
+// ------------- Lessons router -----------
+const lessonsRouter = require('./router/lessonRoutes');
+app.use('/api/lessons', lessonsRouter)
 
-const productrouter = require('./router/ProductRouter');
-app.use('/api', productrouter)
 
 
 app.get('/', (req, res) => {
-    res.status(200).json({ msg: 'Backendga hush kelibsiz hush kelinsiz' })
+    res.status(200).json({ msg: 'Word-box Backendga hush kelibsiz hush kelinsiz' })
 })
 
 
