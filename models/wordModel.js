@@ -55,6 +55,12 @@ const Word = {
     });
   },
 
+   updateLearned: (id, userId, learned, callback) => {
+    const sql = `UPDATE words SET learned = ? WHERE id = ? AND userId = ?`;
+    db.run(sql, [learned, id, userId], function (err) {
+      callback(err, this.changes);
+    });
+  },
   
   delete: (id, userId, callback) => {
     const sql = `DELETE FROM words WHERE id = ? AND userId = ?`;
@@ -62,6 +68,10 @@ const Word = {
       callback(err, this.changes);
     });
   }
+
+  
+
+  
 };
 
 wordsTable();

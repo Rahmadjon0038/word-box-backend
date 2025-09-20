@@ -41,6 +41,19 @@ exports.updateWord = (req, res) => {
 };
 
 
+// Faqat learned ni yangilash
+exports.updateWordLearned = (req, res) => {
+  const userId = req.user.id;
+  const { id } = req.params;
+  const { learned } = req.body;
+
+  Word.updateLearned(id, userId, learned, (err, changes) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (changes === 0) return res.status(404).json({ error: "So‘z topilmadi" });
+    res.json({ message: "So‘z learned statusi yangilandi" });
+  });
+};
+
 
 // So‘zni o‘chirish
 exports.deleteWord = (req, res) => {
@@ -51,5 +64,25 @@ exports.deleteWord = (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     if (changes === 0) return res.status(404).json({ error: "So‘z topilmadi" });
     res.json({ message: "So‘z o‘chirildi" });
+  });
+};
+
+
+exports.getWordsByLesson = (req, res) => {
+  const userId = req.user.id;
+  const { lessonId } = req.params;
+
+  Word.getByLessonId(lessonId, userId, (err, words) => {
+    if (err) return res.status(500).json({ error: err.message });
+
+    // frontendga kerakli formatda qaytaramiz
+    const formatted = words.map((w) => ({
+      id: w.id,
+      en: w.english,
+      uz: w.uzbek,
+      learned: w.learned // 0 yoki 1
+    }));
+
+    res.json({ words: formatted });
   });
 };

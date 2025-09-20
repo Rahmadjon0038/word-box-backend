@@ -12,7 +12,12 @@ router.get('/:lessonId', authMiddleware, wordController.getLessonWords);
 // So‘zni yangilash
 router.put('/:id', authMiddleware, wordController.updateWord);
 
+// PATCH faqat learned uchun
+router.patch('/:id/learned', authMiddleware, wordController.updateWordLearned);
+
 // So‘zni o‘chirish
 router.delete('/:id', authMiddleware, wordController.deleteWord);
+
+router.get("/lesson/:lessonId", authMiddleware, wordController.getWordsByLesson);
 
 module.exports = router;
