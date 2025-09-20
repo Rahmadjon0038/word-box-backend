@@ -15,6 +15,12 @@ const lessonsRouter = require('./router/lessonRoutes');
 app.use('/api/lessons', lessonsRouter)
 
 
+// ------------- Lessonga sozlar qoshish router -----------
+const wordRouter = require('./router/wordRoutes');
+app.use('/api/words', wordRouter)
+
+
+
 
 app.get('/', (req, res) => {
     res.status(200).json({ msg: 'Word-box Backendga hush kelibsiz hush kelinsiz' })
