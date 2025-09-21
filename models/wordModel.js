@@ -55,23 +55,29 @@ const Word = {
     });
   },
 
-   updateLearned: (id, userId, learned, callback) => {
+  updateLearned: (id, userId, learned, callback) => {
     const sql = `UPDATE words SET learned = ? WHERE id = ? AND userId = ?`;
     db.run(sql, [learned, id, userId], function (err) {
       callback(err, this.changes);
     });
   },
-  
+
   delete: (id, userId, callback) => {
     const sql = `DELETE FROM words WHERE id = ? AND userId = ?`;
     db.run(sql, [id, userId], function (err) {
       callback(err, this.changes);
     });
-  }
+  },
 
-  
+  getUnlearnedByLessonId: (lessonId, userId, callback) => {
+    const sql = `SELECT id, english AS en, uzbek AS uz FROM words WHERE lessonId = ? AND userId = ? AND learned = 0`;
+    db.all(sql, [lessonId, userId], (err, rows) => {
+      callback(err, rows);
+    });
+  },
 
-  
+
+
 };
 
 wordsTable();

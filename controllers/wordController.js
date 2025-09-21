@@ -23,7 +23,12 @@ exports.getLessonWords = (req, res) => {
 
   Word.getByLessonId(lessonId, userId, (err, words) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json({ message: "Dars so‘zlari", words });
+    // Tartib raqamini qo'shamiz
+    const formatted = words.map((w, i) => ({
+      ...w,
+      order: i + 1
+    }));
+    res.json({ message: "Dars so‘zlari", words: formatted });
   });
 };
 
@@ -75,14 +80,31 @@ exports.getWordsByLesson = (req, res) => {
   Word.getByLessonId(lessonId, userId, (err, words) => {
     if (err) return res.status(500).json({ error: err.message });
 
-    // frontendga kerakli formatda qaytaramiz
-    const formatted = words.map((w) => ({
+    // frontendga kerakli formatda va tartib raqami bilan qaytaramiz
+    const formatted = words.map((w, i) => ({
       id: w.id,
       en: w.english,
       uz: w.uzbek,
-      learned: w.learned // 0 yoki 1
+      learned: w.learned, // 0 yoki 1
+      order: i + 1
     }));
 
     res.json({ words: formatted });
+  });
+};
+
+// Yodlanmagan so‘zlarni olish
+exports.getUnlearnedWords = (req, res) => {
+  const userId = req.user.id;
+  const { lessonId } = req.params;
+
+  Word.getUnlearnedByLessonId(lessonId, userId, (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    // Tartib raqamini qo'shamiz
+    const formatted = rows.map((w, i) => ({
+      ...w,
+      order: i + 1
+    }));
+    res.json(formatted); 
   });
 };

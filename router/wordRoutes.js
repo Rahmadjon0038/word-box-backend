@@ -20,4 +20,8 @@ router.delete('/:id', authMiddleware, wordController.deleteWord);
 
 router.get("/lesson/:lessonId", authMiddleware, wordController.getWordsByLesson);
 
+// Yodlay olmaganlari o‘chirish
+router.get('/:lessonId/unlearned', authMiddleware, wordController.getUnlearnedWords);
+
+
 module.exports = router;
