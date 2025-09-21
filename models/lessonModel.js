@@ -56,6 +56,51 @@ const Lesson = {
       callback(err, this.changes);
     });
   }
+  ,
+
+  getByUserId: (userId, callback) => {
+  const sql = `
+    SELECT l.id, l.title,
+           COUNT(w.id) AS totalWords,
+           SUM(CASE WHEN w.learned = 1 THEN 1 ELSE 0 END) AS learnedWords
+    FROM lessons l
+    LEFT JOIN words w ON l.id = w.lessonId AND l.userId = w.userId
+    WHERE l.userId = ?
+    GROUP BY l.id
+  `;
+  db.all(sql, [userId], (err, rows) => {
+    callback(err, rows);
+  });
+},
+
+getUserStats: (userId, callback) => {
+  const sql = `
+    SELECT 
+      COUNT(DISTINCT l.id) AS totalLessons,
+      COUNT(w.id) AS totalWords,
+      SUM(CASE WHEN w.learned = 1 THEN 1 ELSE 0 END) AS learnedWords
+    FROM lessons l
+    LEFT JOIN words w ON l.id = w.lessonId AND l.userId = w.userId
+    WHERE l.userId = ?
+  `;
+  db.get(sql, [userId], (err, row) => {
+    callback(err, row);
+  });
+},
+
+getLessonById: (userId, lessonId, callback) => {
+  const sql = `
+    SELECT id, title 
+    FROM lessons 
+    WHERE id = ? AND userId = ?
+  `;
+  db.get(sql, [lessonId, userId], (err, row) => {
+    callback(err, row);
+  });
+},
+
+
+
 };
 
 lessonsTable();

@@ -47,3 +47,40 @@ exports.deleteLesson = (req, res) => {
     res.json({ message: "Lesson o‘chirildi" });
   });
 };
+
+// User uchun barcha darslarni olish
+exports.getUserLessons = (req, res) => {
+  const userId = req.user.id;
+
+  Lesson.getByUserId(userId, (err, lessons) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: "User lessons", lessons });
+  });
+};
+
+// User umumiy statistikasi
+exports.getUserStats = (req, res) => {
+  const userId = req.user.id;
+
+  Lesson.getUserStats(userId, (err, stats) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: "User umumiy statistika", stats });
+  });
+};
+
+
+// Bitta darsni olish
+exports.getLessonById = (req, res) => {
+  const userId = req.user.id;
+  const lessonId = req.params.id;
+
+  Lesson.getLessonById(userId, lessonId, (err, lesson) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!lesson) return res.status(404).json({ message: "Dars topilmadi" });
+
+    res.json({
+      id: lesson.id,
+      title: lesson.title
+    });
+  });
+};
