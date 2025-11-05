@@ -1,13 +1,13 @@
-const User = require('../models/authModels');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const User = require("../models/authModels");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 // 🔑 Token yasash
 const generateToken = (user) => {
   return jwt.sign(
     { id: user.id, email: user.email, role: user.role },
     process.env.JWT_SECRET,
-    { expiresIn: '1d' }
+    { expiresIn: "1d" }
   );
 };
 
@@ -37,8 +37,8 @@ exports.register = (req, res) => {
         name: user.name,
         email: user.email,
         avatar: user.avatar,
-        role: user.role
-      }
+        role: user.role,
+      },
     });
   });
 };
@@ -67,7 +67,7 @@ exports.login = (req, res) => {
     res.json({
       message: "Login muvaffaqiyatli ",
       token,
-      role: user.role
+      role: user.role,
     });
   });
 };
@@ -82,11 +82,10 @@ exports.getMe = (req, res) => {
 
     res.json({
       message: "User ma’lumotlari ",
-      user
+      user,
     });
   });
 };
-
 
 // 📌 Barcha userlarni olish (faqat admin uchun)
 exports.getAllUsers = (req, res) => {
@@ -99,7 +98,7 @@ exports.getAllUsers = (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({
       message: "Barcha foydalanuvchilar ✅",
-      users
+      users,
     });
   });
 };
