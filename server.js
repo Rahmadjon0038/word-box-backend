@@ -3,7 +3,12 @@ const cors = require("cors");
 require("dotenv").config();
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_ORIGIN || "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 // ------------- Auth router -----------
 const authRouter = require("./router/authRouter");

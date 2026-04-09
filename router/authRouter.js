@@ -9,6 +9,8 @@ const router = express.Router();
 // Register va login
 router.post("/register", userController.register);
 router.post("/login", userController.login);
+router.post("/refresh", userController.refreshToken);
+router.post("/logout", userController.logout);
 
 // Yangi user/me API
 router.get("/me", authMiddleware, userController.getMe);

@@ -18,6 +18,16 @@ const usersTable = () => {
       console.log("Users jadvali yaratildi ✅");
     }
   });
+
+  // Agar mavjud bo‘lmasa refresh_token ustunini qo‘shamiz
+  db.run(`ALTER TABLE users ADD COLUMN refresh_token TEXT`, (err) => {
+    if (err) {
+      // duplicate column bo‘lsa e'tibor bermaymiz
+      if (!String(err.message || "").includes("duplicate column")) {
+        console.error("refresh_token ustuni qo‘shilmadi ❌:", err.message);
+      }
+    }
+  });
 };
 
 const User = {
@@ -44,6 +54,22 @@ const User = {
     const sql = `SELECT id, name, email, avatar, role FROM users WHERE id = ?`;
     db.get(sql, [id], (err, row) => {
       callback(err, row);
+    });
+  },
+
+  // ID bo‘yicha user (refresh_token bilan)
+  getByIdWithRefresh: (id, callback) => {
+    const sql = `SELECT * FROM users WHERE id = ?`;
+    db.get(sql, [id], (err, row) => {
+      callback(err, row);
+    });
+  },
+
+  // refresh_token yangilash
+  updateRefreshToken: (id, refreshToken, callback) => {
+    const sql = `UPDATE users SET refresh_token = ? WHERE id = ?`;
+    db.run(sql, [refreshToken, id], function (err) {
+      callback(err);
     });
   },
 };
